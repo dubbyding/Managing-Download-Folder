@@ -3,7 +3,6 @@ import fleep
 import moving
 path_ = 'C:\\Users\\rmaha\\Downloads\\'
 path2_ = 'C:\\Users\\rmaha\\Documents\\'
-#path_ = os.path.dirname(os.path.abspath(__file__))
 for entry in os.scandir(path = path2_):
     if entry.is_dir():
         continue
