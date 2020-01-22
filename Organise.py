@@ -1,8 +1,9 @@
 import os
 import fleep  
 import moving
-path_ = 'C:\\Users\\rmaha\\Downloads\\'
-path2_ = 'C:\\Users\\rmaha\\Documents\\'
+user=moving.username()
+path_ = 'C:\\Users\\'+user+'\\Downloads\\'
+path2_ = 'C:\\Users\\'+user+'\\Documents\\'
 for entry in os.scandir(path = path2_):
     if entry.is_dir():
         continue
@@ -16,7 +17,7 @@ for entry in os.scandir(path=path_):
         DataType = fleep.get(file.read(128)).type
     if not DataType:
         moving.moveByExt(path_ , ext, entry.name)
-    move_ = moving.checkFileType(DataType,path_)
+    move_ = moving.checkFileType(DataType,user,path_)
     if move_ == 'None':
         moving.moveByExt(path_ , ext, entry.name)
     else:
