@@ -5,11 +5,6 @@ user=move.username() #Check Username of logged in user
 #Path of Download folder and Documents folder
 path_ = 'C:/Users/' +user+'/Downloads/'
 path2_ = 'C:/Users/'+user+'/Documents/'
-for entry in os.scandir(path = path2_):  #Scans dir of path of Documents
-    if entry.is_dir():  #Checks if it is dir
-        continue
-    ext = entry.name.split('.')[-1] #gets extension for a file
-    move.moveByExt(path2_ , ext, entry.name)  #move file by extension
 for entry in os.scandir(path=path_):    #Scan dir of path of Downloads
     if entry.is_dir():  #check if it is dir
         continue
@@ -24,3 +19,8 @@ for entry in os.scandir(path=path_):    #Scan dir of path of Downloads
         move.moveByExt(path_ , ext, entry.name)
     else:
         move.moveToRespectiveFolder(move_,entry.name,path_)
+for entry in os.scandir(path = path2_):  #Scans dir of path of Documents
+    if entry.is_dir():  #Checks if it is dir
+        continue
+    ext = entry.name.split('.')[-1] #gets extension for a file
+    move.moveByExt(path2_ , ext, entry.name)  #move file by extension
