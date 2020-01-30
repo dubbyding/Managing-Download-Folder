@@ -1,10 +1,17 @@
 import os
 import fleep  
 import move
+import platform
 user=move.username() #Check Username of logged in user
+#checking os
+platformName = platform.system()
+if(platformName=='Windows'):
+    initialPath = 'C:/Users/'
+elif(platformName=='Linux'):
+    initialPath = '/home/'
 #Path of Download folder and Documents folder
-path_ = 'C:/Users/' +user+'/Downloads/'
-path2_ = 'C:/Users/'+user+'/Documents/'
+path_ = initialPath +user+'/Downloads/'
+path2_ = initialPath +user+'/Documents/'
 for entry in os.scandir(path=path_):    #Scan dir of path of Downloads
     if entry.is_dir():  #check if it is dir
         continue
@@ -14,7 +21,7 @@ for entry in os.scandir(path=path_):    #Scan dir of path of Downloads
     if not DataType:    #Somefile's data type is not returned hence those are sorted in download folder by extension
         move.moveByExt(path_ , ext, entry.name)
         continue
-    move_ = move.checkFileType(DataType,user,path_) #check file type
+    move_ = move.checkFileType(DataType,user,path_, initialPath) #check file type
     if move_ == 'None': 
         move.moveByExt(path_ , ext, entry.name)
     else:

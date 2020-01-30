@@ -11,22 +11,22 @@ def moveByExt(path_, ext, entry):
     else:
         os.makedirs(path_+'/'+ext)
         shutil.move(path_+'/'+entry,path_+'/'+ext+'/'+entry)
-def checkFileType(DataType, user, path_):
+def checkFileType(DataType, user, path_, initialPath):
     '''Check if the file is System, Video, audio, raster-image or none of them'''
     for types_ in DataType:
         if types_ == 'system':
             break
         elif types_ == 'video':
-            move_ = 'C:\\Users\\'+user+'\\Videos\\'
+            move_ = initialPath +user+'/Videos/'
         elif types_ == 'audio':
-            move_ = 'C:\\Users\\'+user+'\\Music\\'
+            move_ = initialPath + user+'/Music/'
         elif types_ == 'raster-image':
-            move_ = 'C:\\Users\\'+user+'\\Pictures\\'
+            move_ = initialPath + user+'/Pictures/'
         elif types_ == 'document':
-            move_ = 'C:\\Users\\'+user+'\\Documents\\'
+            move_ = initialPath + user+'/Documents'
         else:
             move_ = 'None'
     return move_
 def moveToRespectiveFolder(move,name,path_):
-    '''Moves file to respective folder'''
+    '''Moves file to respectie folder'''
     shutil.move(path_+'/'+name,move+'/'+name)
