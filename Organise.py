@@ -16,6 +16,8 @@ for entry in os.scandir(path=path_):    #Scan dir of path of Downloads
     if entry.is_dir():  #check if it is dir
         continue
     ext = entry.name.split('.')[-1] #gets extension for a file
+    if (ext == 'crdownload' and ext == 'part'):
+        continue
     with open(path_+'/'+entry.name,"rb") as file: #Opens that file as a binary file
         DataType = fleep.get(file.read(128)).type   #fleep gets the file type
     if not DataType:    #Somefile's data type is not returned hence those are sorted in download folder by extension
