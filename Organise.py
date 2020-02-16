@@ -18,7 +18,7 @@ while 1:
         if entry.is_dir():  #check if it is dir
             continue
         ext = entry.name.split('.')[-1] #gets extension for a file
-        if (ext == 'crdownload' and ext == 'part'):
+        if (ext == 'crdownload' or ext == 'part'):
             continue
         with open(path_+'/'+entry.name,"rb") as file: #Opens that file as a binary file
             DataType = fleep.get(file.read(128)).type   #fleep gets the file type
