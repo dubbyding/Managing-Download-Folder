@@ -11,28 +11,32 @@ def moveByExt(path_, ext, entry):
     else:
         os.makedirs(path_+'/'+ext)
         shutil.move(path_+'/'+entry,path_+'/'+ext+'/'+entry)
-def checkFileType(DataType, user, path_, initialPath,platformName):
+def checkFileType(ext, user, path_, initialPath,platformName):
     '''Check if the file is System, Video, audio, raster-image or none of them'''
-    for types_ in DataType:
-        if types_ == 'system':
-            break
-        elif types_ == 'video':
-            move_ = initialPath +user+'/Videos'
-        elif types_ == 'audio':
-            move_ = initialPath + user+'/Music'
-        elif types_ == 'raster-image':
-            if platformName == 'Linux':
-                move_ = initialPath + user +'/Pictures'
-            else:
-                move_ = initialPath + user +'/OneDrive/Pictures'
-        elif types_ == 'document':
-            if platformName == 'Linux':
-                move_ = initialPath + user+'/Documents'
-            else:
-                move_ = initialPath + user +'/OneDrive/Documents'
+    audio = ['3gp', 'acc', 'flac', 'm4a', 'm4b', 'm4p', 'mp3','wav', 'wma']
+    document = ['doc', 'docx', 'pdf', 'odt', 'svg', 'txt', 'ppt', 'pptx', 'xls', 'xlsx']
+    video = ['webm', 'mkv', 'flv', 'gif', 'avi', 'ts', 'mov', 'wmv', 'mp4', 'm4p', 'm4v', 'mpeg', 'svi', '3gp', 'm4v']
+    image = ['jpg', 'jpeg', 'png', 'bmp', 'webp']
+    types_ = ['audio' for i in audio[:] if i == ext]
+    if types_ and types_[0] == 'audio':
+            return(initialPath + user+'/Music')
+    types_ = ['video' for i in video[:] if i == ext]
+    if types_ and types_[0] == 'video':
+        return (initialPath +user+'/Videos')
+    types_ = ['raster-image' for i in image[:] if i == ext]
+    if types_ and types_[0] == 'raster-image':
+        if platformName == 'Linux':
+            return(initialPath + user +'/Pictures')
         else:
-            move_ = 'None'
-    return move_
+            return(initialPath + user +'/OneDrive/Pictures')
+    types_ = ['document' for i in document[:] if i == ext]
+    if types_ and types_[0] == 'document':
+        if platformName == 'Linux':
+            return(initialPath + user+'/Documents')
+        else:
+            return(initialPath + user +'/OneDrive/Documents')
+    if not types_:
+        return('None')
 def moveToRespectiveFolder(move,name,path_):
     '''Moves file to respectie folder'''
     shutil.move(path_+'/'+name,move+'/'+name)
