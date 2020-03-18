@@ -2,7 +2,8 @@ import os
 import move
 import platform
 from time import sleep
-user = move.username() #Check Username of logged in user
+#Check Username of logged in user
+user = move.username() 
 #checking os
 platformName = platform.system()
 if(platformName =='Windows'):
@@ -15,6 +16,7 @@ if platformName == 'Linux':
     path2_ = initialPath +user+'/Documents/'
 else:
     path2_ = initialPath +user+'/OneDrive/Documents/'
+#Repeat organizing every 60 seconds
 while(1):
     for entry in os.scandir(path=path_):    #Scan dir of path of Downloads
         if entry.is_dir():  #check if it is dir
