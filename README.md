@@ -1,9 +1,5 @@
 # Managing-Download-Folder
-Managing Download folder and Document Folder\
-
-To run:\
-Add fleep\
-pip install fleep\
+Managing Download folder and Document Folder
 
 Run Organise.py!
 
