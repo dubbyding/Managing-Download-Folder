@@ -67,24 +67,10 @@ class org:
     def runInfinite(self):
         #Repeat organizing every 60 seconds
         while(1):
-            for entry in os.scandir(path = self.path_):    #Scan dir of path of Downloads
-                if entry.is_dir():  #check if it is dir
-                    continue
-                self.ext = entry.name.split('.')[-1] #gets extension for a file
-                if (self.ext == 'crdownload' or self.ext == 'part'):
-                    continue
-                self.move_ =checkFileType(self.ext, self.user, self.path_, self.initialPath, self.platformName)
-                if self.move_ == 'None': 
-                    moveByExt(self.path_ , self.ext, entry.name)
-                else:
-                    moveToRespectiveFolder(self.move_,entry.name,self.path_)
-            for entry in os.scandir(path = self.path2_):  #Scans dir of path of Documents
-                if entry.is_dir():  #Checks if it is dir
-                    continue
-                self.ext = entry.name.split('.')[-1] #gets extension for a file
-                moveByExt(self.path2_ , self.ext, entry.name)  #move file by extension
+            self.runOnce()
             sleep(60)
-    def runOnce(self):      #For testing purpose
+    def runOnce(self):      
+        #Organize everything once
         for entry in os.scandir(path = self.path_):    #Scan dir of path of Downloads
             if entry.is_dir():  #check if it is dir
                 continue
