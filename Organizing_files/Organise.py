@@ -65,12 +65,12 @@ class org:
         else:
             self.path2_ = self.initialPath + self.user+'/OneDrive/Documents/'
     def runInfinite(self):
-        #Repeat organizing every 60 seconds
+        '''Repeat organizing every 60 seconds'''
         while(1):
             self.runOnce()
             sleep(60)
     def runOnce(self):      
-        #Organize everything once
+        '''Organize everything once'''
         for entry in os.scandir(path = self.path_):    #Scan dir of path of Downloads
             if entry.is_dir():  #check if it is dir
                 continue
