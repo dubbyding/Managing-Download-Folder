@@ -4,13 +4,9 @@ import shutil
 import getpass
 from time import sleep
 from .Fileextensions import *
-'''
-    Contains all the Necessary functions for Organising
-'''
-'''
-    Class To Organise
-'''
+
 class org:
+    #Class To Organise
     def __init__(self):
         #Check Username of logged in user
         self.user = self.username()
