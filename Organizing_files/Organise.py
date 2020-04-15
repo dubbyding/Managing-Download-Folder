@@ -3,7 +3,7 @@ import platform
 import shutil
 import getpass
 from time import sleep
-from Organizing_files import Fileextensions
+from .Fileextensions import *
 '''
     Contains all the Necessary functions for Organising
 '''
@@ -29,7 +29,7 @@ class org:
     def username(self):
         '''Get username of logged in user'''
         return getpass.getuser()
-    def checkFileType(self):
+    def checkFileType(self,ext, user, path_, initialPath,platformName):
         '''Check if the file is System, Video, audio, raster-image or none of them'''
         types_ = ['audio' for i in audio[:] if i == self.ext]
         if types_ and types_[0] == 'audio':
@@ -51,16 +51,16 @@ class org:
                 return(self.initialPath + self.user +'/OneDrive/Documents')
         if not types_:
             return('None')
-    def moveByExt(self):
+    def moveByExt(self, path_, ext, entry):
         '''Arrange Files through Extension'''
-        if os.path.exists(self.path_+ '/' +self.ext):
-            shutil.move(self.path_+'/'+self.entry.name,self.path_+'/'+self.ext+'/'+self.entry.name)
+        if os.path.exists(path_+'/'+ext):
+            shutil.move(path_+'/'+entry,path_+'/'+ext+'/'+entry)
         else:
-            os.makedirs(self.path_+'/'+ self.ext)
-            shutil.move(self.path_+'/'+self.entry.name,self.path_+'/'+self.ext+'/'+self.entry.name)
-    def moveToRespectiveFolder(self):
+            os.makedirs(path_+'/'+ext)
+            shutil.move(path_+'/'+entry,path_+'/'+ext+'/'+entry)
+    def moveToRespectiveFolder(self,move,name,path_):
         '''Moves file to respectie folder'''
-        shutil.move(self.path_ + '/' + self.entry.name,self.move_+'/' + self.entry.name)
+        shutil.move(path_+'/'+name,move+'/'+name)
     def runInfinite(self):
         '''Repeat organizing every 60 seconds'''
         while(1):
@@ -68,20 +68,19 @@ class org:
             sleep(60)
     def runOnce(self):      
         '''Organize everything once'''
-        for self.entry in os.scandir(path = self.path_):    #Scan dir of path of Downloads
-            if self.entry.is_dir():  #check if it is dir
+        for entry in os.scandir(path = self.path_):    #Scan dir of path of Downloads
+            if entry.is_dir():  #check if it is dir
                 continue
-            self.ext = self.entry.name.split('.')[-1] #gets extension for a file
+            self.ext = entry.name.split('.')[-1] #gets extension for a file
             if (self.ext == 'crdownload' or self.ext == 'part'):
                 continue
-            self.move_ = self.checkFileType()
+            self.move_ = self.checkFileType(self.ext, self.user, self.path_, self.initialPath, self.platformName)
             if self.move_ == 'None': 
-                self.moveByExt()
+                self.moveByExt(self.path_ , self.ext, entry.name)
             else:
-                self.moveToRespectiveFolder()
-        self.path_ = self.path2_
-        for entry in os.scandir(path = self.path_):  #Scans dir of path of Documents
+                self.moveToRespectiveFolder(self.move_, entry.name, self.path_)
+        for entry in os.scandir(path = self.path2_):  #Scans dir of path of Documents
             if entry.is_dir():  #Checks if it is dir
                 continue
             self.ext = entry.name.split('.')[-1] #gets extension for a file
-            self.moveByExt()  #move file by extension
+            self.moveByExt(self.path2_ , self.ext, entry.name)  #move file by extension
