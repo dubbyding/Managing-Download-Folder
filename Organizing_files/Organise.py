@@ -8,20 +8,24 @@ from .Fileextensions import *
 class org:
     #Class To Organise
     def __init__(self):
+        print("Ready")
+    def usernameFind(self): 
         #Check Username of logged in user
         self.user = self.username()
-        #checking os
+    def platformUsing(self):
+        '''checking os'''
         self.platformName = platform.system()
         if(self.platformName =='Windows'):
             self.initialPath = 'C:/Users/'
         elif(self.platformName =='Linux'):
             self.initialPath = '/home/'
-        #Path of Download folder and Documents folder
+    def setPath(self):
+        """Path of Download folder and Documents folder"""
         self.path_ = self.initialPath + self.user+'/Downloads/'
         if self.platformName == 'Linux':
             self.path2_ = self.initialPath + self.user + '/Documents/'
         else:
-            self.path2_ = self.initialPath + self.user + '/OneDrive/Documents/'
+            self.path2_ = self.initialPath + self.user + '/Documents/'
     def username(self):
         '''Get username of logged in user'''
         return getpass.getuser()
@@ -38,13 +42,13 @@ class org:
             if self.platformName == 'Linux':
                 return(self.initialPath + self.user +'/Pictures')
             else:
-                return(self.initialPath + self.user +'/OneDrive/Pictures')
+                return(self.initialPath + self.user +'/Pictures')
         types_ = ['document' for i in document[:] if i == self.ext]
         if types_ and types_[0] == 'document':
             if self.platformName == 'Linux':
                 return(self.initialPath + self.user+'/Documents')
             else:
-                return(self.initialPath + self.user +'/OneDrive/Documents')
+                return(self.initialPath + self.user +'/Documents')
         if not types_:
             return('None')
     def moveByExt(self, path_, ext, entry):
@@ -63,20 +67,31 @@ class org:
             self.runOnce()
             sleep(60)
     def runOnce(self):      
+        self.usernameFind()
+        self.platformUsing()
+        self.setPath()
         '''Organize everything once'''
         for entry in os.scandir(path = self.path_):    #Scan dir of path of Downloads
             if entry.is_dir():  #check if it is dir
                 continue
             self.ext = entry.name.split('.')[-1] #gets extension for a file
-            if (self.ext == 'crdownload' or self.ext == 'part'):
+            if (self.ext == 'crdownload' or self.ext == 'part' or self.ext == 'ini'):
                 continue
             self.move_ = self.checkFileType(self.ext, self.user, self.path_, self.initialPath, self.platformName)
-            if self.move_ == 'None': 
-                self.moveByExt(self.path_ , self.ext, entry.name)
-            else:
-                self.moveToRespectiveFolder(self.move_, entry.name, self.path_)
+            try:
+                if self.move_ == 'None': 
+                    self.moveByExt(self.path_ , self.ext, entry.name)
+                else:
+                    self.moveToRespectiveFolder(self.move_, entry.name, self.path_)
+            except FileExistsError:
+                continue
         for entry in os.scandir(path = self.path2_):  #Scans dir of path of Documents
             if entry.is_dir():  #Checks if it is dir
                 continue
             self.ext = entry.name.split('.')[-1] #gets extension for a file
-            self.moveByExt(self.path2_ , self.ext, entry.name)  #move file by extension
+            try:
+                self.moveByExt(self.path2_ , self.ext, entry.name)  #move file by extension
+            except FileExistsError:
+                continue
+    def __del__(self):
+        print("Done")
