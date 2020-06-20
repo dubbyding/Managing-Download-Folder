@@ -26,6 +26,11 @@ class org:
             self.path2_ = self.initialPath + self.user + '/Documents/'
         else:
             self.path2_ = self.initialPath + self.user + '/Documents/'
+            if(not(self.checkPath(self.path2_))):
+                self.onedrive = True
+                self.path2_ = self.initialPath + self.user + '/OneDrive/Documents/'
+    def checkPath(self, pathNeeded):
+        return(os.path.isdir(pathNeeded))
     def username(self):
         '''Get username of logged in user'''
         return getpass.getuser()
@@ -42,13 +47,19 @@ class org:
             if self.platformName == 'Linux':
                 return(self.initialPath + self.user +'/Pictures')
             else:
-                return(self.initialPath + self.user +'/Pictures')
+                if(self.onedrive):
+                    return(self.initialPath + self.user +'/OneDrive/Pictures')
+                else:
+                    return(self.initialPath + self.user +'/Pictures')
         types_ = ['document' for i in document[:] if i == self.ext]
         if types_ and types_[0] == 'document':
             if self.platformName == 'Linux':
                 return(self.initialPath + self.user+'/Documents')
             else:
-                return(self.initialPath + self.user +'/Documents')
+                if(self.onedrive):
+                    return(self.initialPath + self.user +'/OneDrive/Documents')
+                else:
+                    return(self.initialPath + self.user +'/Documents')
         if not types_:
             return('None')
     def moveByExt(self, path_, ext, entry):
@@ -65,6 +76,7 @@ class org:
         '''Repeat organizing every 60 seconds'''
         while(1):
             self.runOnce()
+            print(".")
             sleep(60)
     def runOnce(self):      
         self.usernameFind()
