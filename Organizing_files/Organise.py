@@ -28,13 +28,23 @@ class org:
         pltfrm = platform.system()
         return pltfrm
     def setPath(self, platformName):
-        """Path of Download folder and Documents folder"""
+        """
+        setPath(platfromName)
+            platformName: Platform name ie. Linux or Windows
+        Path of Download folder and Documents folder
+        """
         if(platformName =='Windows'):
             return 'C:/Users/' + self.user
         elif(platformName =='Linux'):
             return '/home/' + self.user
         
     def searchingPath(self, path, platformName):
+        """
+        searchingPath(path, platfromName)
+            path: path till username in linux or windows
+            platfromName: Platfrom name either linux or windows
+        Set searching path of downloads and documents
+        """
         self.path_ = path +'/Downloads/'
         self.path2_ = path +'/Documents/'
         if platformName == 'Windows':
@@ -125,7 +135,7 @@ class org:
         Logs all the file that has been
         """
         logpath = os.path.dirname(os.path.abspath(__file__)) + "/Logs/"
-        if((logpath)):
+        if(checkPath(logpath)):
             if(os.path.isfile(logpath + 'log.txt')):
                 file = open(logpath + 'log.txt', 'a')
             else:
