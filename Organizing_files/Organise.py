@@ -3,6 +3,7 @@ import platform
 import shutil
 import getpass
 import datetime
+import csv
 from time import sleep
 if __name__ == "__main__":
     from Fileextensions import *
@@ -135,18 +136,20 @@ class org:
         Logs all the file that has been
         """
         logpath = os.path.dirname(os.path.abspath(__file__)) + "/Logs/"
-        if(checkPath(logpath)):
-            if(os.path.isfile(logpath + 'log.txt')):
-                file = open(logpath + 'log.txt', 'a')
+        fieldnames = ['Time', 'Source', 'Destination']
+        if(self.checkPath(logpath)):
+            if(os.path.isfile(logpath + 'log.csv')):
+                file = open(logpath + 'log.csv', 'a')
             else:
-                file = open(logpath + 'log.txt', 'w')
+                file = open(logpath + 'log.csv', 'w')
         else:
             os.makedirs(os.path.dirname(os.path.abspath(__file__)) + "/Logs")
-            file = open(logpath + 'log.txt', 'w')
+            file = open(logpath + 'log.csv', 'w')
         time = datetime.datetime.now().strftime("%Y/%m/%d %I:%M:%S %p")
         print(time + " " + source + " " + destination + "\n")
-        file.write(time + " " + source + " " + destination)
-        file.write("\n")
+        writer = csv.DictWriter(file, fieldnames=fieldnames)
+        writer.writeheader()
+        writer.writerow({'Time': time, 'Source': source, 'Destination': destination})
         file.close
     def runInfinite(self, tLoop):
         '''
