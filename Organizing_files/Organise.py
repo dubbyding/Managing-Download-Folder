@@ -146,7 +146,7 @@ class org:
             os.makedirs(os.path.dirname(os.path.abspath(__file__)) + "/Logs")
             file = open(logpath + 'log.csv', 'w')
         time = datetime.datetime.now().strftime("%Y/%m/%d %I:%M:%S %p")
-        print(time + " " + source + " " + destination + "\n")
+        print(time + " " + source + " " + destination)
         writer = csv.DictWriter(file, fieldnames=fieldnames)
         writer.writeheader()
         writer.writerow({'Time': time, 'Source': source, 'Destination': destination})
