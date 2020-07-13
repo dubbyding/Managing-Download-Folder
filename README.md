@@ -8,5 +8,7 @@ Run backgroundExec.pyw to run in background in Windows
 
 Uncomment runOnce() and comment runInfinte() to run the program once only.
 
+Log of all moved data are stored in Documents/Managing-Download-Folder-Log/log.csv file
+
 
 
