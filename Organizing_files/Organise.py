@@ -139,20 +139,21 @@ class org:
         fieldnames = ['Year/Month/Day','HH/MM/SS', 'Source', 'Destination']
         year = datetime.datetime.now().strftime("%Y/%m/%d")
         time = datetime.datetime.now().strftime("%I:%M:%S %p")
+        file_data_dict = {'Year/Month/Day': year,'HH/MM/SS': time, 'Source': source.encode('utf8'), 'Destination': destination.encode('utf8')}
         print(type(time))
         if not self.checkPath(logpath):
             os.makedirs(self.path2_ + "/Managing-Download-Folder-Logs/")
             with open(logpath + 'log.csv', 'w', newline="") as log_file:
                 writer = csv.DictWriter(log_file, fieldnames=fieldnames)
                 writer.writeheader()
-                writer.writerow({'Year/Month/Day': year,'HH/MM/SS': time, 'Source': source, 'Destination': destination})
-                print(time + " " + source + " " + destination)
+                writer.writerow(file_data_dict)
+                print(file_data_dict)
                 log_file.close
         else:
             with open(logpath + 'log.csv', 'a', newline="") as log_file:
                 writer = csv.DictWriter(log_file, fieldnames=fieldnames)
-                writer.writerow({'Year/Month/Day': year,'HH/MM/SS': time, 'Source': source, 'Destination': destination})
-                print(time + " " + source + " " + destination)
+                writer.writerow(file_data_dict)
+                print(file_data_dict)
                 log_file.close
         
     def runInfinite(self, tLoop):
