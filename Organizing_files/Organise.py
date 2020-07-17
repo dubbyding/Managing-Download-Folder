@@ -31,19 +31,21 @@ class org:
     def setPath(self, platformName):
         """
         setPath(platfromName)
-            platformName: Platform name ie. Linux or Windows
+            platformName: Platform name ie. Linux or Windows or Darwin(MacOS)
         Path of Download folder and Documents folder
         """
         if(platformName =='Windows'):
             return 'C:/Users/' + self.user
         elif(platformName =='Linux'):
             return '/home/' + self.user
+        elif(platformName =='Darwin'):
+            return '/Users/' + self.user
         
     def searchingPath(self, path, platformName):
         """
         searchingPath(path, platfromName)
-            path: path till username in linux or windows
-            platfromName: Platfrom name either linux or windows
+            path: path till username in linux or windows or macOS
+            platfromName: Platfrom name either linux or windows or macOS
         Set searching path of downloads and documents
         """
         self.path_ = path +'/Downloads/'
@@ -174,6 +176,8 @@ class org:
         self.user = self.usernameFind()
         platformName = self.platformUsing()
         path = self.setPath(platformName)
+        if platformName == 'Darwin':
+            platformName = 'Linux'
         self.searchingPath(path, platformName)
         '''Organize everything once'''
         for entry in os.scandir(path = self.path_):    #Scan dir of path of Downloads
