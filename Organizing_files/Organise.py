@@ -142,7 +142,6 @@ class org:
         year = datetime.datetime.now().strftime("%Y/%m/%d")
         time = datetime.datetime.now().strftime("%I:%M:%S %p")
         file_data_dict = {'Year/Month/Day': year,'HH/MM/SS': time, 'Source': source.encode('utf8'), 'Destination': destination.encode('utf8')}
-        print(type(time))
         if not self.checkPath(logpath):
             os.makedirs(self.path2_ + "/Managing-Download-Folder-Logs/")
             with open(logpath + 'log.csv', 'w', newline="") as log_file:
@@ -176,15 +175,17 @@ class org:
         self.user = self.usernameFind()
         platformName = self.platformUsing()
         path = self.setPath(platformName)
-        if platformName == 'Darwin':
+        if platformName == 'Darwin':        # Since MAC/Unix and linux has similar system for pathways after username they are made same after initializing till username
             platformName = 'Linux'
         self.searchingPath(path, platformName)
         '''Organize everything once'''
         for entry in os.scandir(path = self.path_):    #Scan dir of path of Downloads
             if entry.is_dir():  #check if it is dir
                 continue
+            if platformName == 'Windows' and entry.name == "desktop.ini":       # desktop.ini gives persmission error in windows machine
+                continue
             self.ext = entry.name.split('.')[-1] #gets extension for a file
-            if (self.ext == 'crdownload' or self.ext == 'part' or self.ext == 'ini'):
+            if (self.ext == 'crdownload' or self.ext == 'part'):
                 continue
             self.move_ = self.checkFileType(self.ext, path, platformName)
             try:
@@ -196,6 +197,8 @@ class org:
                 continue
         for entry in os.scandir(path = self.path2_):  #Scans dir of path of Documents
             if entry.is_dir():  #Checks if it is dir
+                continue
+            if platformName == 'Windows' and entry.name == "desktop.ini":       # desktop.ini gives persmission error in windows machine
                 continue
             self.ext = entry.name.split('.')[-1] #gets extension for a file
             try:
