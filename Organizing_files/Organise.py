@@ -1,10 +1,11 @@
 import os 
-import platform
+import csv
 import shutil
 import getpass
+import platform
 import datetime
-import csv
 from time import sleep
+
 if __name__ == "__main__":
     from Fileextensions import *
 else:
@@ -54,6 +55,7 @@ class org:
             if(not(self.checkPath(self.path2_))):
                 self.onedrive = True
                 self.path2_ = path + '/OneDrive/Documents/'
+
     def checkPath(self, pathNeeded):
         """
         checkPath(self, pathNeeded)
@@ -61,12 +63,14 @@ class org:
         Checks if the directory exists or not
         """
         return(os.path.isdir(pathNeeded))
+    
     def username(self):
         '''
         username()
         Get username of logged in user
         '''
         return getpass.getuser()
+    
     def checkFileType(self, ext, path, platformName):
         """
         checkFileType(ext, user, initialPath, platformName)
@@ -81,10 +85,12 @@ class org:
                 return(path + '/Music')
         types_ = ['video' for i in video[:] if i == self.ext]
         if types_ and types_[0] == 'video':
+            if(platformName == 'Darwin'):
+                return (path + '/Movies')
             return (path + '/Videos')
         types_ = ['raster-image' for i in image[:] if i == self.ext]
         if types_ and types_[0] == 'raster-image':
-            if platformName == 'Linux':
+            if platformName == 'Linux' or platformName == 'Darwin':
                 return(path +'/Pictures')
             else:
                 if(self.onedrive):
@@ -93,7 +99,7 @@ class org:
                     return(path +'/Pictures')
         types_ = ['document' for i in document[:] if i == self.ext]
         if types_ and types_[0] == 'document':
-            if platformName == 'Linux':
+            if platformName == 'Linux' or platformName == 'Darwin':
                 return(path+'/Documents')
             else:
                 if(self.onedrive):
@@ -130,6 +136,7 @@ class org:
         destination = move+'/'+name
         self.log(source, destination)
         shutil.move(source, destination)
+
     def log(self, source, destination):
         """
         log(source, destination)
@@ -175,8 +182,7 @@ class org:
         self.user = self.usernameFind()
         platformName = self.platformUsing()
         path = self.setPath(platformName)
-        if platformName == 'Darwin':        # Since MAC/Unix and linux has similar system for pathways after username they are made same after initializing till username
-            platformName = 'Linux'
+        
         self.searchingPath(path, platformName)
         '''Organize everything once'''
         for entry in os.scandir(path = self.path_):    #Scan dir of path of Downloads
